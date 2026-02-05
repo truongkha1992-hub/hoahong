@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Bảng Tính - Hoa Hồng CTV</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -131,13 +131,20 @@
             border-radius: 30px;
         }
         
+        /* Table responsive wrapper */
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+            border: 1px solid #eaeaea;
+        }
+        
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 30px;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+            min-width: 700px;
         }
         
         th {
@@ -175,12 +182,27 @@
             transition: all 0.3s;
             font-weight: 500;
             font-family: monospace;
+            cursor: pointer;
+            min-height: 50px;
+        }
+        
+        /* Ngăn zoom trên iOS */
+        @supports (-webkit-touch-callout: none) {
+            .input-cell input {
+                font-size: 16px !important;
+            }
         }
         
         .input-cell input:focus {
             border-color: #2d6b9e;
             box-shadow: 0 0 0 4px rgba(45, 107, 158, 0.15);
             outline: none;
+        }
+        
+        .input-cell input.active {
+            background-color: #e8f0ff;
+            border-color: #2d6b9e;
+            transform: scale(1.02);
         }
         
         .result-cell {
@@ -201,6 +223,13 @@
             font-size: 18px;
             border-top: 3px solid #2d6b9e;
             border-bottom: none;
+        }
+        
+        .grand-total-cell {
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%) !important;
+            color: white !important;
+            font-weight: bold;
+            font-size: 20px;
         }
         
         .action-buttons {
@@ -224,6 +253,7 @@
             gap: 12px;
             transition: all 0.3s;
             min-width: 200px;
+            touch-action: manipulation;
         }
         
         #addRowBtn {
@@ -286,6 +316,7 @@
             color: #2d6b9e;
         }
         
+        /* Tablet styles */
         @media (max-width: 992px) {
             .action-buttons {
                 flex-direction: column;
@@ -307,7 +338,12 @@
             }
         }
         
+        /* Mobile landscape and small tablets */
         @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
             header {
                 padding: 25px 20px;
             }
@@ -316,13 +352,44 @@
                 font-size: 26px;
             }
             
+            .subtitle {
+                font-size: 15px;
+            }
+            
+            .instructions {
+                padding: 20px;
+            }
+            
             .calculator-container {
                 padding: 20px;
             }
             
-            table {
-                display: block;
-                overflow-x: auto;
+            .formula-display {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px 20px;
+            }
+            
+            .formula-text {
+                font-size: 15px;
+                line-height: 1.4;
+                margin-bottom: 10px;
+            }
+            
+            .formula-text span {
+                display: inline-block;
+                margin: 2px 0;
+            }
+            
+            .current-time {
+                font-size: 14px;
+                padding: 6px 12px;
+                align-self: center;
+            }
+            
+            .table-responsive {
+                border-radius: 10px;
+                border: 1px solid #ddd;
             }
             
             th, td {
@@ -330,10 +397,182 @@
                 font-size: 14px;
             }
             
-            .formula-display {
-                flex-direction: column;
-                align-items: flex-start;
+            .input-cell input {
+                padding: 12px 10px;
+                font-size: 14px;
+                min-height: 44px;
             }
+            
+            button {
+                padding: 15px 25px;
+                font-size: 16px;
+                min-width: 100%;
+            }
+            
+            .keyboard-container {
+                width: 95%;
+                padding: 15px;
+            }
+            
+            .keyboard-btn {
+                padding: 15px 5px;
+                font-size: 20px;
+            }
+            
+            .keyboard-open-btn {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            
+            .footer {
+                padding: 20px 15px;
+                font-size: 14px;
+            }
+            
+            .export-info p {
+                font-size: 13px;
+                margin-bottom: 8px;
+            }
+        }
+        
+        /* Small mobile devices */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            header {
+                padding: 20px 15px;
+            }
+            
+            h1 {
+                font-size: 22px;
+            }
+            
+            .subtitle {
+                font-size: 14px;
+            }
+            
+            .instructions, .calculator-container {
+                padding: 20px 15px;
+            }
+            
+            .instructions-content {
+                gap: 20px;
+            }
+            
+            .instructions-section {
+                min-width: 100%;
+            }
+            
+            th, td {
+                padding: 12px 8px;
+                font-size: 13px;
+            }
+            
+            .input-cell input {
+                padding: 10px 8px;
+                font-size: 14px;
+            }
+            
+            button {
+                padding: 14px 20px;
+                min-width: 100%;
+                font-size: 15px;
+            }
+            
+            .keyboard-container {
+                width: 95%;
+                padding: 15px;
+            }
+            
+            .keyboard-btn {
+                padding: 15px 5px;
+                font-size: 20px;
+            }
+            
+            .keyboard-open-btn {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            
+            .footer {
+                padding: 20px 15px;
+                font-size: 14px;
+            }
+            
+            .export-info p {
+                font-size: 12px;
+                margin-bottom: 8px;
+            }
+        }
+        
+        /* Very small mobile devices */
+        @media (max-width: 360px) {
+            h1 {
+                font-size: 20px;
+            }
+            
+            .formula-text {
+                font-size: 14px;
+            }
+            
+            th, td {
+                padding: 10px 6px;
+                font-size: 12px;
+            }
+            
+            button {
+                padding: 12px 15px;
+                font-size: 14px;
+            }
+            
+            .keyboard-btn {
+                padding: 12px 5px;
+                font-size: 18px;
+            }
+        }
+        
+        /* Orientation warning for mobile */
+        .orientation-warning {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: white;
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            flex-direction: column;
+        }
+        
+        .orientation-warning i {
+            font-size: 60px;
+            margin-bottom: 20px;
+            color: #ff9800;
+        }
+        
+        .orientation-warning h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #ff9800;
+        }
+        
+        .orientation-warning p {
+            font-size: 18px;
+            max-width: 300px;
+            line-height: 1.5;
         }
         
         .highlight {
@@ -349,46 +588,304 @@
             color: #d32f2f;
             font-weight: 600;
         }
+        
+        /* Virtual Keyboard Modal */
+        .keyboard-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .keyboard-container {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            width: 90%;
+            max-width: 350px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .keyboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eaeaea;
+        }
+        
+        .keyboard-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a2a6c;
+        }
+        
+        .close-keyboard {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #666;
+            cursor: pointer;
+            padding: 5px;
+            touch-action: manipulation;
+        }
+        
+        .keyboard-display {
+            background: #f8f9fa;
+            border: 2px solid #2d6b9e;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: right;
+            font-size: 28px;
+            font-weight: bold;
+            color: #1a2a6c;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            font-family: monospace;
+            overflow: hidden;
+        }
+        
+        .keyboard-grid-3x3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .keyboard-btn {
+            background: white;
+            border: 2px solid #d1d9e6;
+            border-radius: 4px;
+            padding: 8px 6px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            touch-action: manipulation;
+			 min-height: 50px;  
+        }
+        
+        .keyboard-btn:hover {
+            background: #e8f0ff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(45, 107, 158, 0.1);
+        }
+        
+        .keyboard-btn:active {
+            transform: translateY(0);
+        }
+        
+        .keyboard-btn.number {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
+        }
+        
+        .keyboard-btn.zero {
+            grid-column: span 3;
+        }
+        
+        .keyboard-controls {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 4px;
+            margin-top: 4px;
+        }
+        
+        .keyboard-btn.clear {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+            color: white;
+            border-color: #f57c00;
+        }
+        
+        .keyboard-btn.backspace {
+            background: linear-gradient(135deg, #f44336 0%, #c62828 100%);
+            color: white;
+            border-color: #c62828;
+        }
+        
+        .keyboard-btn.enter {
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            color: white;
+            border-color: #2E7D32;
+        }
+        
+        .current-cell-info {
+            background: #e8f0ff;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #1a2a6c;
+            font-weight: 600;
+            border-left: 4px solid #2d6b9e;
+        }
+        
+        .current-cell-name {
+            color: #d32f2f;
+            font-weight: bold;
+            background-color: #ffeaea;
+            padding: 3px 8px;
+            border-radius: 5px;
+        }
+        
+        /* Keyboard Open Button */
+        .keyboard-open-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2196F3 0%, #0D47A1 100%);
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            touch-action: manipulation;
+			display: none; /* Ẩn nút bàn phím trên desktop */
+        }
+        
+        .keyboard-open-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(33, 150, 243, 0.6);
+        }
+        
+        /* Mobile-specific touch feedback */
+        @media (max-width: 768px) {
+            .keyboard-btn:active {
+                transform: scale(0.95);
+                transition: transform 0.1s;
+            }
+            
+            button:active {
+                transform: scale(0.98);
+                transition: transform 0.1s;
+            }
+            
+            .calculating {
+                position: relative;
+                opacity: 0.7;
+            }
+            
+            .calculating::after {
+                content: "Đang tính...";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(0,0,0,0.8);
+                color: white;
+                padding: 10px 20px;
+                border-radius: 10px;
+                z-index: 100;
+            }
+        }
+        
+        /* Loading spinner for mobile */
+        .loading-spinner {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2000;
+            background: rgba(255,255,255,0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #e8f0ff;
+            border-top: 5px solid #2d6b9e;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
+    <!-- Orientation warning for mobile -->
+    <div class="orientation-warning" id="orientationWarning">
+        <i class="fas fa-mobile-alt"></i>
+        <h3>Vui lòng xoay dọc điện thoại</h3>
+        <p>Ứng dụng hoạt động tốt nhất ở chế độ dọc. Vui lòng xoay điện thoại của bạn để tiếp tục.</p>
+    </div>
+    
+    <!-- Loading spinner -->
+    <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner"></div>
+        <p>Đang xử lý...</p>
+    </div>
+    
     <div class="container">
         <header>
             <h1><i class="fas fa-calculator"></i> Bảng Tính Hoa Hồng CTV</h1>
-           
+            <p class="subtitle">Tính hoa hồng theo tỷ lệ 0.4% cho BILL A và 0.2% cho BILL B</p>
         </header>
         
-             
-        <div class="calculator-container">
-            <div class="formula-display">
-              <div class="current-time" id="currentTime">Đang cập nhật thời gian...</div>
+        
+                <div class="current-time" id="currentTime">Đang cập nhật thời gian...</div>
             </div>
             
-            <table id="calculationTable">
-                <thead>
-                    <tr>
-                        <th width="8%">STT</th>
-                        <th width="22%">BILL (A) vnđ</th>
-                        <th width="18%">0.4% vnđ</th>
-                        <th width="22%">BILL (B) vnđ</th>
-                        <th width="18%">0.2% vnđ</th>
-                        <th width="12%">Tổng vnđ</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody">
-                    <!-- Hàng dữ liệu sẽ được thêm tự động -->
-                </tbody>
-                <tfoot>
-                    <tr class="total-row">
-                        <td><strong>TỔNG</strong></td>
-                        <td id="totalAInput" class="result-cell">0 vnđ</td>
-                        <td id="totalA" class="result-cell">0 vnđ</td>
-                        <td id="totalBInput" class="result-cell">0 vnđ</td>
-                        <td id="totalB" class="result-cell">0 vnđ</td>
-                        <td id="grandTotal" class="result-cell">0 vnđ</td>
-                    </tr>
-                </tfoot>
-            </table>
+            <!-- Wrapper cho bảng để cuộn ngang trên mobile -->
+            <div class="table-responsive">
+                <table id="calculationTable">
+                    <thead>
+                        <tr>
+                            <th width="8%">STT</th>
+                            <th width="22%">BILL (A) vnđ</th>
+                            <th width="18%">0.4% vnđ</th>
+                            <th width="22%">BILL (B) vnđ</th>
+                            <th width="18%">0.2% vnđ</th>
+                            <th width="12%">Tổng vnđ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- Hàng dữ liệu sẽ được thêm tự động -->
+                    </tbody>
+                    <tfoot>
+                        <tr class="total-row">
+                            <td><strong>TỔNG</strong></td>
+                            <td id="totalAInput" class="result-cell">0 vnđ</td>
+                            <td id="totalA" class="result-cell">0 vnđ</td>
+                            <td id="totalBInput" class="result-cell">0 vnđ</td>
+                            <td id="totalB" class="result-cell">0 vnđ</td>
+                            <td id="grandTotal" class="result-cell grand-total-cell">0 vnđ</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
             
             <div class="action-buttons">
                 <button id="addRowBtn">
@@ -408,20 +905,90 @@
         
         <div class="footer">
             <div class="export-info">
-                <p><i class="fas fa-download"></i> File Excel xuất ra sẽ có định dạng tiền Việt Nam: 1.000 TR vnđ</p>
+                <p><i class="fas fa-download"></i> File Excel xuất ra sẽ có định dạng tiền Việt Nam: 1.000 TR</p>
                 <p><i class="fas fa-calendar-alt"></i> Tên file tự động chứa ngày giờ xuất báo cáo</p>
+                <p><i class="fas fa-keyboard"></i> Sử dụng bàn phím ảo 3x3 để nhập liệu dễ dàng</p>
             </div>
             <div>
                 <p>Bảng tính / Hoa Hồng CTV ©2026</p>
                 <p id="lastExportInfo">Chưa có file nào được xuất</p>
                 <p>Thiết Kế Bởi 21 Quân sự</p>
+				<p>https://tvk1991.github.io/hoahong/</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Nút mở bàn phím -->
+    <button class="keyboard-open-btn" id="openKeyboardBtn">
+        <i class="fas fa-keyboard"></i>
+    </button>
+    
+    <!-- Modal bàn phím ảo -->
+    <div class="keyboard-modal" id="keyboardModal">
+        <div class="keyboard-container">
+            <div class="keyboard-header">
+                <div class="keyboard-title">
+                            </div>
+                <button class="close-keyboard" id="closeKeyboardBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="current-cell-info" id="currentCellInfo">
+                Đang nhập: <span class="current-cell-name" id="currentCellName">Chưa chọn ô nào</span>
+            </div>
+            
+            <div class="keyboard-display" id="keyboardDisplay">
+                0
+            </div>
+            
+            <div class="keyboard-grid-3x3">
+                <div class="keyboard-btn number" data-key="1">1</div>
+                <div class="keyboard-btn number" data-key="2">2</div>
+                <div class="keyboard-btn number" data-key="3">3</div>
+                <div class="keyboard-btn number" data-key="4">4</div>
+                <div class="keyboard-btn number" data-key="5">5</div>
+                <div class="keyboard-btn number" data-key="6">6</div>
+                <div class="keyboard-btn number" data-key="7">7</div>
+                <div class="keyboard-btn number" data-key="8">8</div>
+                <div class="keyboard-btn number" data-key="9">9</div>
+            </div>
+            
+            <div class="keyboard-controls">
+                <div class="keyboard-btn clear" data-key="clear">Xóa</div>
+                <div class="keyboard-btn number zero" data-key="0">0</div>
+                <div class="keyboard-btn backspace" data-key="backspace">
+                    <i class="fas fa-backspace"></i>
+                </div>
+            </div>
+            
+            <div class="keyboard-controls">
+                <div class="keyboard-btn enter" data-key="ok" style="grid-column: span 2;">
+                    <i class="fas fa-check"></i> OK
+                </div>
+                <div class="keyboard-btn enter" data-key="next">
+                    <i class="fas fa-arrow-down"></i> Tiếp
+                </div>
             </div>
         </div>
     </div>
 
     <script>
+        // Biến toàn cục
+        let currentInput = null;
+        let currentRow = null;
+        let currentColumn = null;
+        let keyboardValue = '';
+        let isMobile = false;
+        
         // Khởi tạo bảng với 9 hàng mặc định
         document.addEventListener('DOMContentLoaded', function() {
+            // Kiểm tra thiết bị di động
+            isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+            
+            // Kiểm tra hướng màn hình
+            checkOrientation();
+            
             initializeTable();
             updateTotals();
             updateCurrentTime();
@@ -435,9 +1002,42 @@
             document.getElementById('resetBtn').addEventListener('click', resetTable);
             document.getElementById('exportExcelBtn').addEventListener('click', exportToExcel);
             
+            // Sự kiện bàn phím
+            document.getElementById('openKeyboardBtn').addEventListener('click', openKeyboard);
+            document.getElementById('closeKeyboardBtn').addEventListener('click', closeKeyboard);
+            
             // Khôi phục dữ liệu từ localStorage nếu có
             loadFromLocalStorage();
+            
+            // Khởi tạo bàn phím
+            initializeKeyboard();
+            
+            // Đóng modal khi click bên ngoài
+            document.getElementById('keyboardModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeKeyboard();
+                }
+            });
+            
+            // Khởi tạo touch events cho mobile
+            if (isMobile) {
+                initializeTouchEvents();
+            }
+            
+            // Kiểm tra hướng màn hình khi thay đổi kích thước
+            window.addEventListener('resize', checkOrientation);
+            window.addEventListener('orientationchange', checkOrientation);
         });
+        
+        // Kiểm tra hướng màn hình
+        function checkOrientation() {
+            if (window.innerWidth <= 768 && window.innerHeight < window.innerWidth) {
+                // Đang ở chế độ ngang trên mobile
+                document.getElementById('orientationWarning').style.display = 'flex';
+            } else {
+                document.getElementById('orientationWarning').style.display = 'none';
+            }
+        }
         
         // Cập nhật thời gian hiện tại
         function updateCurrentTime() {
@@ -505,11 +1105,11 @@
             newRow.innerHTML = `
                 <td>${rowNumber}</td>
                 <td class="input-cell">
-                    <input type="text" id="valueA-${rowNumber}" class="value-input" data-type="A" placeholder="Nhập giá trị">
+                    <input type="text" id="valueA-${rowNumber}" class="value-input" data-type="A" data-row="${rowNumber}" data-col="A" placeholder="Nhấn để chọn" readonly>
                 </td>
                 <td class="result-cell" id="resultA-${rowNumber}">0 vnđ</td>
                 <td class="input-cell">
-                    <input type="text" id="valueB-${rowNumber}" class="value-input" data-type="B" placeholder="Nhập giá trị">
+                    <input type="text" id="valueB-${rowNumber}" class="value-input" data-type="B" data-row="${rowNumber}" data-col="B" placeholder="Nhấn để chọn" readonly>
                 </td>
                 <td class="result-cell" id="resultB-${rowNumber}">0 vnđ</td>
                 <td class="result-cell" id="rowTotal-${rowNumber}">0 vnđ</td>
@@ -517,36 +1117,235 @@
             
             tableBody.appendChild(newRow);
             
-            // Thêm sự kiện cho các ô input
+            // Thêm sự kiện click cho các ô input
             const inputs = newRow.querySelectorAll('.value-input');
             inputs.forEach(input => {
-                // Xử lý khi người dùng nhập liệu
-                input.addEventListener('input', function() {
-                    // Lấy giá trị số từ input đã được format
-                    const numericValue = formatInputValue(this);
-                    
-                    // Tính toán cho hàng này
-                    calculateRow(rowNumber);
-                    updateTotals();
-                    saveToLocalStorage();
-                });
-                
-                // Xử lý khi người dùng paste
-                input.addEventListener('paste', function(e) {
-                    e.preventDefault();
-                    const pastedText = e.clipboardData.getData('text');
-                    this.value = pastedText.replace(/\./g, '');
-                    formatInputValue(this);
-                    
-                    // Kích hoạt sự kiện input
-                    this.dispatchEvent(new Event('input'));
+                input.addEventListener('click', function() {
+                    activateInput(this);
                 });
             });
         }
         
+        // Kích hoạt ô input khi click
+        function activateInput(input) {
+            // Xóa class active từ tất cả các input
+            document.querySelectorAll('.value-input').forEach(inp => {
+                inp.classList.remove('active');
+            });
+            
+            // Thêm class active cho input được click
+            input.classList.add('active');
+            
+            // Lưu thông tin input hiện tại
+            currentInput = input;
+            currentRow = input.getAttribute('data-row');
+            currentColumn = input.getAttribute('data-col');
+            
+            // Hiển thị giá trị hiện tại trong bàn phím
+            const currentValue = input.value.replace(/\./g, '');
+            keyboardValue = currentValue || '';
+            updateKeyboardDisplay();
+            
+            // Cập nhật thông tin ô đang chọn
+            updateCurrentCellInfo();
+            
+            // Mở bàn phím tự động
+            openKeyboard();
+        }
+        
+        // Cập nhật thông tin ô đang chọn
+        function updateCurrentCellInfo() {
+            if (currentInput) {
+                const row = currentInput.getAttribute('data-row');
+                const col = currentInput.getAttribute('data-col') === 'A' ? 'BILL A' : 'BILL B';
+                document.getElementById('currentCellName').textContent = `Hàng ${row} - ${col}`;
+            } else {
+                document.getElementById('currentCellName').textContent = 'Chưa chọn ô nào';
+            }
+        }
+        
+        // Mở bàn phím
+        function openKeyboard() {
+            if (!currentInput) {
+                alert('Vui lòng chọn một ô để nhập giá trị trước!');
+                return;
+            }
+            
+            document.getElementById('keyboardModal').style.display = 'flex';
+            updateKeyboardDisplay();
+        }
+        
+        // Đóng bàn phím
+        function closeKeyboard() {
+            document.getElementById('keyboardModal').style.display = 'none';
+            keyboardValue = '';
+        }
+        
+        // Khởi tạo bàn phím
+        function initializeKeyboard() {
+            const keyboardButtons = document.querySelectorAll('.keyboard-btn');
+            
+            keyboardButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const key = this.getAttribute('data-key');
+                    handleKeyboardInput(key);
+                });
+            });
+        }
+        
+        // Khởi tạo touch events cho mobile
+        function initializeTouchEvents() {
+            const inputs = document.querySelectorAll('.value-input');
+            
+            inputs.forEach(input => {
+                // Thêm touch event
+                input.addEventListener('touchstart', function(e) {
+                    if (window.innerWidth <= 768) {
+                        e.preventDefault();
+                        activateInput(this);
+                        
+                        // Rung nhẹ khi chọn (haptic feedback)
+                        if (navigator.vibrate) {
+                            navigator.vibrate(10);
+                        }
+                    }
+                }, { passive: false });
+                
+                // Ngăn chặn zoom khi double tap
+                input.addEventListener('touchend', function(e) {
+                    if (window.innerWidth <= 768) {
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+            });
+            
+            // Tối ưu bàn phím ảo cho touch
+            const keyboardButtons = document.querySelectorAll('.keyboard-btn');
+            keyboardButtons.forEach(btn => {
+                btn.addEventListener('touchstart', function() {
+                    this.style.transform = 'scale(0.95)';
+                });
+                
+                btn.addEventListener('touchend', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+            
+            // Các nút hành động trên mobile
+            const actionButtons = document.querySelectorAll('.action-buttons button');
+            actionButtons.forEach(btn => {
+                btn.addEventListener('touchstart', function() {
+                    this.style.transform = 'scale(0.98)';
+                });
+                
+                btn.addEventListener('touchend', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+        }
+        
+        // Xử lý nhập từ bàn phím
+        function handleKeyboardInput(key) {
+            if (!currentInput) {
+                alert('Vui lòng chọn một ô để nhập giá trị!');
+                return;
+            }
+            
+            switch(key) {
+                case 'clear':
+                    keyboardValue = '';
+                    break;
+                case 'backspace':
+                    keyboardValue = keyboardValue.slice(0, -1);
+                    break;
+                case 'ok':
+                    applyKeyboardValue();
+                    closeKeyboard();
+                    return;
+                case 'next':
+                    applyKeyboardValue();
+                    moveToNextCell();
+                    return;
+                default:
+                    // Giới hạn độ dài số
+                    if (keyboardValue.length < 12) {
+                        keyboardValue += key;
+                    }
+                    break;
+            }
+            
+            updateKeyboardDisplay();
+        }
+        
+        // Cập nhật hiển thị bàn phím
+        function updateKeyboardDisplay() {
+            const display = document.getElementById('keyboardDisplay');
+            if (keyboardValue === '') {
+                display.textContent = '0';
+            } else {
+                // Format với dấu chấm phân cách
+                const numValue = parseInt(keyboardValue) || 0;
+                display.textContent = numValue.toLocaleString('vi-VN');
+            }
+        }
+        
+        // Áp dụng giá trị từ bàn phím vào input
+        function applyKeyboardValue() {
+            if (!currentInput) return;
+            
+            const numValue = keyboardValue === '' ? 0 : parseInt(keyboardValue);
+            
+            // Format với dấu chấm phân cách
+            currentInput.value = numValue.toLocaleString('vi-VN');
+            
+            // Tính toán cho hàng này
+            calculateRow(currentRow);
+            updateTotals();
+            saveToLocalStorage();
+        }
+        
+        // Di chuyển đến ô tiếp theo
+        function moveToNextCell() {
+            if (!currentInput || !currentRow || !currentColumn) return;
+            
+            const row = parseInt(currentRow);
+            const col = currentColumn;
+            
+            let nextInput = null;
+            
+            // Logic di chuyển: A -> B, nếu đang ở B thì xuống hàng tiếp theo A
+            if (col === 'A') {
+                // Chuyển sang B cùng hàng
+                nextInput = document.getElementById(`valueB-${row}`);
+            } else if (col === 'B') {
+                // Xuống hàng tiếp theo, cột A
+                const nextRow = row + 1;
+                nextInput = document.getElementById(`valueA-${nextRow}`);
+                
+                // Nếu hàng tiếp theo không tồn tại, thêm hàng mới
+                if (!nextInput) {
+                    addNewRow();
+                    nextInput = document.getElementById(`valueA-${row + 1}`);
+                }
+            }
+            
+            // Kích hoạt ô tiếp theo
+            if (nextInput) {
+                currentInput.classList.remove('active');
+                activateInput(nextInput);
+            } else {
+                closeKeyboard();
+            }
+        }
+        
         // Tính toán giá trị cho một hàng cụ thể
         function calculateRow(rowNumber) {
-            // Lấy giá trị từ input A và B (đã được format)
+            // Hiển thị loading trên mobile
+            if (isMobile) {
+                showLoading();
+            }
+            
+            // Lấy giá trị từ input A và B
             const inputA = document.getElementById(`valueA-${rowNumber}`);
             const inputB = document.getElementById(`valueB-${rowNumber}`);
             
@@ -565,7 +1364,22 @@
             const rowTotal = resultA + resultB;
             document.getElementById(`rowTotal-${rowNumber}`).innerHTML = `<span class="currency-vnd">${formatCurrencyVND(rowTotal)}</span>`;
             
+            // Ẩn loading
+            if (isMobile) {
+                setTimeout(hideLoading, 100);
+            }
+            
             return { valueA, valueB, resultA, resultB, rowTotal };
+        }
+        
+        // Hiển thị loading spinner
+        function showLoading() {
+            document.getElementById('loadingSpinner').style.display = 'flex';
+        }
+        
+        // Ẩn loading spinner
+        function hideLoading() {
+            document.getElementById('loadingSpinner').style.display = 'none';
         }
         
         // Cập nhật tổng của tất cả các hàng
@@ -633,6 +1447,7 @@
                     updateRowNumbers();
                     updateTotals();
                     saveToLocalStorage();
+                    currentInput = null;
                 }
             } else {
                 alert("Không thể xóa hàng cuối cùng. Bảng phải có ít nhất 1 hàng dữ liệu!");
@@ -654,8 +1469,14 @@
                 const resultB = row.cells[4];
                 const rowTotal = row.cells[5];
                 
-                if (valueAInput) valueAInput.id = `valueA-${rowNumber}`;
-                if (valueBInput) valueBInput.id = `valueB-${rowNumber}`;
+                if (valueAInput) {
+                    valueAInput.id = `valueA-${rowNumber}`;
+                    valueAInput.setAttribute('data-row', rowNumber);
+                }
+                if (valueBInput) {
+                    valueBInput.id = `valueB-${rowNumber}`;
+                    valueBInput.setAttribute('data-row', rowNumber);
+                }
                 if (resultA) resultA.id = `resultA-${rowNumber}`;
                 if (resultB) resultB.id = `resultB-${rowNumber}`;
                 if (rowTotal) rowTotal.id = `rowTotal-${rowNumber}`;
@@ -669,6 +1490,8 @@
                 updateTotals();
                 localStorage.removeItem('percentageCalculatorData');
                 document.getElementById('lastExportInfo').textContent = 'Dữ liệu đã được đặt lại';
+                currentInput = null;
+                closeKeyboard();
             }
         }
         
@@ -717,12 +1540,12 @@
                     
                     if (rowData.valueA && rowData.valueA !== '') {
                         const numValueA = parseInt(rowData.valueA) || 0;
-                        inputA.value = numValueA.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                        inputA.value = numValueA.toLocaleString('vi-VN');
                     }
                     
                     if (rowData.valueB && rowData.valueB !== '') {
                         const numValueB = parseInt(rowData.valueB) || 0;
-                        inputB.value = numValueB.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                        inputB.value = numValueB.toLocaleString('vi-VN');
                     }
                     
                     // Tính toán cho hàng này
@@ -736,6 +1559,11 @@
         
         // Xuất dữ liệu ra file Excel
         function exportToExcel() {
+            // Hiển thị loading trên mobile
+            if (isMobile) {
+                showLoading();
+            }
+            
             // Tạo một workbook mới
             const wb = XLSX.utils.book_new();
             
@@ -798,14 +1626,14 @@
             const exportTime = new Date().toLocaleString('vi-VN');
             wsData.push(['Thời gian xuất file:', exportTime]);
             wsData.push(['Tổng số hàng dữ liệu:', rows.length]);
-            wsData.push(['Xuất Từ :', 'https://tvk1991.github.io/hoahong/']);
-             wsData.push(['Thiết Kế Bởi:', '21 QUÂN SỰ']);
+            wsData.push(['Công thức tính:', 'BILL A × 0.4% + BILL B × 0.2% = Tổng hoa hồng']);
+            
             // Tạo worksheet từ dữ liệu
             const ws = XLSX.utils.aoa_to_sheet(wsData);
             
             // Thiết lập độ rộng cột
             const wscols = [
-                {wch: 19},   // STT
+                {wch: 8},   // STT
                 {wch: 25},  // BILL (A)
                 {wch: 20},  // 0.4% của A
                 {wch: 25},  // BILL (B)
@@ -826,8 +1654,18 @@
                 };
             }
             
-            // Định dạng hàng tổng
+            // Định dạng ô Tổng cuối cùng (màu xanh lá cây)
             const totalRow = rows.length + 2; // +2 vì có tiêu đề và dòng trống
+            const grandTotalCell = XLSX.utils.encode_cell({r: totalRow, c: 5}); // Cột thứ 6 (0-based index 5)
+            if (ws[grandTotalCell]) {
+                ws[grandTotalCell].s = {
+                    font: { bold: true, color: { rgb: "FFFFFF" } },
+                    fill: { fgColor: { rgb: "4CAF50" } }, // Màu xanh lá cây
+                    alignment: { horizontal: "center", vertical: "center" }
+                };
+            }
+            
+            // Định dạng hàng tổng
             for (let C = 0; C <= 5; ++C) {
                 const cellAddress = XLSX.utils.encode_cell({r: totalRow, c: C});
                 if (!ws[cellAddress]) continue;
@@ -859,6 +1697,11 @@
             
             // Lưu thời gian xuất file
             saveToLocalStorage();
+            
+            // Ẩn loading
+            if (isMobile) {
+                setTimeout(hideLoading, 500);
+            }
         }
     </script>
 </body>
